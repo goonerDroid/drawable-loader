@@ -1,0 +1,3 @@
+include ':drawableloader'
+include ':app'
+rootProject.name = "DrawableLoaderSample"
