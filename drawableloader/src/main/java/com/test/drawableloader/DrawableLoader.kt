@@ -1,3 +1,5 @@
+@file:Suppress("SameParameterValue")
+
 package com.test.drawableloader
 
 import android.content.Context
@@ -12,8 +14,7 @@ import com.test.drawableloader.listeners.OnBitmapRendered
 /**
  *
  *
- * Decode and render Bitmaps the epic and easy way, creating faster Android apps without extra effort.
- *
+ * Decode and render Bitmaps.*
  *
  *
  * This Android Bitmap decoder library follows the Google conventions for displaying bitmaps efficiently
@@ -47,9 +48,7 @@ object DrawableLoader {
      *
      * @param cache Cache to use by renderer
      */
-    //region Fields
     private var cache: DrawableLoaderBitmapCache? = null
-    //endregion Constructors and initialization
 
 
     //region Rendering Synchronous Methods
@@ -247,6 +246,11 @@ object DrawableLoader {
         decodeBitmapFromResource(res, resId, 1, onBitmapRendered, onBitmapRenderFailed)
     }
     //region Cache methods
+
+    fun initLoader(context: Context?){
+        initDiskCache(context)
+    }
+
     /**
      *
      * Initializes disk caches.
@@ -258,9 +262,10 @@ object DrawableLoader {
      *
      * @param context [Context] from where lib is being called. This is used to get application's cache dir for disk cache.
      */
-    fun initDiskCache(context: Context?) {
+    private fun initDiskCache(context: Context?) {
         cache!!.initDiskCache(context)
     }
+
     //endregion Cache methods
     //region Helper methods
     /**

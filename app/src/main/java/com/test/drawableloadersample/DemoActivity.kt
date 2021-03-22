@@ -1,43 +1,55 @@
 package com.test.drawableloadersample
 
-import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.drawableloader.DrawableLoader
-import com.test.drawableloader.listeners.OnBitmapRenderFailed
-import com.test.drawableloader.listeners.OnBitmapRendered
+import com.test.drawableloadersample.databinding.ActivityDemoBinding
 
 class DemoActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityDemoBinding
+    private val drawablesMap: HashMap<String, Int> = HashMap()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_demo)
+        binding = ActivityDemoBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        DrawableLoader.initDiskCache(this)
+        //init loader lib
+        DrawableLoader.initLoader(this)
 
 
+        //init recyclerview
+        val drawableList: HashMap<String, Int> = loadAllDrawables()
+        val drawableAdapter = DrawableAdapter(drawableList, this::onViewImageClick)
+        binding.rvDrawableList.apply {
+            layoutManager = LinearLayoutManager(this@DemoActivity)
+            adapter = drawableAdapter
+        }
+    }
 
+    private fun onViewImageClick(adapterPosition: Int) {
+        val fm: FragmentManager = supportFragmentManager
+        val dialogFragment = ImageDialogFragment()
+        val args = Bundle()
+        args.putInt("drawable", drawablesMap[drawablesMap.keys.toTypedArray()[adapterPosition]]!!)
+        args.putString("drawableName",drawablesMap.keys.toTypedArray()[adapterPosition])
+        dialogFragment.arguments = args
+        dialogFragment.show(fm, "Image Dialog Fragment")
+    }
 
-		DrawableLoader.decodeBitmapFromResource(
-			resources, R.drawable.ic_app_shortcuts_write,
-			object : OnBitmapRendered {
-				override fun onBitmapRendered(bitmap: Bitmap?) {
-					(findViewById<ImageView>(R.id.iv)).setImageBitmap(
-						bitmap
-					)
-
-				}
-			},
-			object : OnBitmapRenderFailed {
-				override fun onBitmapRenderFailed(e: Exception?) {
-					Toast.makeText(
-						this@DemoActivity,
-						"Failed to load Bitmap from Resource: " + e!!.message,
-						Toast.LENGTH_SHORT
-					).show()
-				}
-			})
+    @Suppress("DEPRECATION")
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun loadAllDrawables(): HashMap<String, Int> {
+        drawablesMap["andro1"] = R.drawable.andro1
+        drawablesMap["andro2"] = R.drawable.andro2
+        drawablesMap["andro3"] = R.drawable.andro3
+        drawablesMap["andro_m1"] = R.drawable.andro_m1
+        drawablesMap["andro_m2"] = R.drawable.andro_m2
+        return drawablesMap
     }
 }

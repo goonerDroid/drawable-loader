@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DrawableLoaderSample</string>
+    <string name="view_drawable">View</string>
+    <string name="drawable_image">drawable image</string>
 </resources>
