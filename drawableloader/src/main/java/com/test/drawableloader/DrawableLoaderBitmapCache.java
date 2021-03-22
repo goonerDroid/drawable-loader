@@ -61,7 +61,6 @@ public class DrawableLoaderBitmapCache {
         new InitDiskCacheTask().execute(cacheDir);
     }
 
-    //region Cache handling methods
 
     /**
      * Adds or updates a {@link Bitmap} to Memory and Disk cache compressed in format and quality specified, identified by a key.
@@ -200,9 +199,6 @@ public class DrawableLoaderBitmapCache {
             mDiskLruCache.delete();
         }
     }
-    //endregion Cache handling methods
-
-    //region Helper methods
 
     /**
      * Creates a unique subdirectory of the designated app cache directory. Tries to use external
@@ -227,9 +223,6 @@ public class DrawableLoaderBitmapCache {
 
         return new File(cachePath + File.separator + uniqueName);
     }
-    //endregion Helper methods
-
-    //region Helper classes
 
     /**
      * AsyncTask to initialize disk cache.

@@ -51,7 +51,11 @@ object DrawableLoader {
     private var cache: DrawableLoaderBitmapCache? = null
 
 
-    //region Rendering Synchronous Methods
+    fun initLoader(context: Context){
+        cache = DrawableLoaderBitmapCache()
+        initDiskCache(context)
+    }
+
     /**
      *
      *
@@ -245,11 +249,8 @@ object DrawableLoader {
     ) {
         decodeBitmapFromResource(res, resId, 1, onBitmapRendered, onBitmapRenderFailed)
     }
-    //region Cache methods
 
-    fun initLoader(context: Context?){
-        initDiskCache(context)
-    }
+
 
     /**
      *
@@ -266,8 +267,6 @@ object DrawableLoader {
         cache!!.initDiskCache(context)
     }
 
-    //endregion Cache methods
-    //region Helper methods
     /**
      * Calculates downsample rate, if needed, for an image depending of width and height it should fit on.
      *
@@ -298,13 +297,5 @@ object DrawableLoader {
             }
         }
         return inSampleSize
-    } //endregion Helper methods
-    //endregion Fields
-    //region Constructors and initialization
-    /**
-     * Library initializations. This block is called when library is loaded.
-     */
-    init {
-        cache = DrawableLoaderBitmapCache()
     }
 }

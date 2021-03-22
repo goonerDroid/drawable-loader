@@ -16,21 +16,16 @@ import com.test.drawableloader.listeners.OnBitmapRendered;
  * AsyncTask to decode a Bitmap from resource given its resource ID and desired dimensions.
  */
 public class AsyncDecodeResMeasured extends AsyncTask<Void, Void, Bitmap> {
-    //region Fields
     private final Resources resources;
     private final int resourceId;
     private final int requiredWidth;
     private final int requiredHeight;
     private Exception failException;
     private final DrawableLoaderBitmapCache drawableLoaderBitmapCache;
-    //endregion Fields
 
-    //region Listeners
     private final OnBitmapRendered onBitmapRendered;
     private final OnBitmapRenderFailed onBitmapRenderFailed;
-    //endregion Listeners
 
-    //region Constructors
 
     /**
      * All parameters constructor.
@@ -77,7 +72,6 @@ public class AsyncDecodeResMeasured extends AsyncTask<Void, Void, Bitmap> {
         this.onBitmapRenderFailed = null;
         this.drawableLoaderBitmapCache = null;
     }
-    //endregion Constructors
 
     @Override
     protected Bitmap doInBackground(Void... params) {
