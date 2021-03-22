@@ -19,7 +19,7 @@ class DemoActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        //init loader lib
+        //init loader
         DrawableLoader.initLoader(this)
 
 
