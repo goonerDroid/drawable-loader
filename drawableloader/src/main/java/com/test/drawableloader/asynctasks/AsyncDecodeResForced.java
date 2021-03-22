@@ -20,7 +20,7 @@ public class AsyncDecodeResForced extends AsyncTask<Void, Void, Bitmap> {
     private final int resourceId;
     private final int inSampleSize;
     private Exception failException;
-    private final DrawableLoaderBitmapCache epicBitmapCache;
+    private final DrawableLoaderBitmapCache drawableLoaderBitmapCache;
     //endregion Fields
 
     //region Listeners
@@ -38,19 +38,19 @@ public class AsyncDecodeResForced extends AsyncTask<Void, Void, Bitmap> {
      * @param inSampleSize         Determines how many times image resolution is divided to lower memory usage. Image aspect ratio is not affected by this parameter, just its resolution / quality is lowered.
      * @param onBitmapRendered     Overwrite this callback to retrieve {@link Bitmap} object rendered once it's ready and perform any other actions needed.
      * @param onBitmapRenderFailed Overwrite this callback to perform actions when {@link Bitmap} object fails to render. Can be null.
-     * @param epicBitmapCache      Cache to check if bitmap has already been rendered.
+     * @param drawableLoaderBitmapCache      Cache to check if bitmap has already been rendered.
      */
     public AsyncDecodeResForced(Resources res, int resId,
                                 int inSampleSize,
                                 OnBitmapRendered onBitmapRendered,
                                 OnBitmapRenderFailed onBitmapRenderFailed,
-                                DrawableLoaderBitmapCache epicBitmapCache) {
+                                DrawableLoaderBitmapCache drawableLoaderBitmapCache) {
         this.resources = res;
         this.resourceId = resId;
         this.inSampleSize = inSampleSize;
         this.onBitmapRendered = onBitmapRendered;
         this.onBitmapRenderFailed = onBitmapRenderFailed;
-        this.epicBitmapCache = epicBitmapCache;
+        this.drawableLoaderBitmapCache = drawableLoaderBitmapCache;
     }
 
     /**
@@ -69,7 +69,7 @@ public class AsyncDecodeResForced extends AsyncTask<Void, Void, Bitmap> {
         this.inSampleSize = inSampleSize;
         this.onBitmapRendered = onBitmapRendered;
         this.onBitmapRenderFailed = null;
-        this.epicBitmapCache = null;
+        this.drawableLoaderBitmapCache = null;
     }
     //endregion Constructors
 
@@ -78,8 +78,8 @@ public class AsyncDecodeResForced extends AsyncTask<Void, Void, Bitmap> {
         Bitmap decodedBitmap = null;
 
         // Search bitmap on cache first if available
-        if (epicBitmapCache != null) {
-            decodedBitmap = epicBitmapCache.getBitmapFromCache(String.valueOf(resourceId));
+        if (drawableLoaderBitmapCache != null) {
+            decodedBitmap = drawableLoaderBitmapCache.getBitmapFromCache(String.valueOf(resourceId));
         }
 
         //If bitmap not found on cache, render it
@@ -91,8 +91,8 @@ public class AsyncDecodeResForced extends AsyncTask<Void, Void, Bitmap> {
                 decodedBitmap = BitmapFactory.decodeResource(resources, resourceId, options);
 
                 //Add bitmap to cache if bitmap was successfully rendered and cache is available
-                if (decodedBitmap != null && epicBitmapCache != null) {
-                    epicBitmapCache.put(String.valueOf(resourceId), decodedBitmap, options.outMimeType, 100);
+                if (decodedBitmap != null && drawableLoaderBitmapCache != null) {
+                    drawableLoaderBitmapCache.put(String.valueOf(resourceId), decodedBitmap, options.outMimeType, 100);
                 }
             } catch (Exception e) {
                 //Set failException for later launch fail callback on main thread
