@@ -21,7 +21,7 @@ allprojects {
 ``
 Add the dependency:
 ```
-implementation 'com.github.goonerDroid:drawable-loader:1.0'
+implementation 'com.github.goonerDroid:drawable-loader:1.01'
 ```
 
 ### 2.- Initializing the library
